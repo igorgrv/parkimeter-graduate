@@ -1,0 +1,8 @@
+spring:
+  application.name: ParkimeterMonitor
+  banner.location: static/banner.txt
+  mongodb:
+    uri: mongodb://localhost/parkimeter
+    port: 27017
+    username:
+    password:
