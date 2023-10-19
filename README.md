@@ -4,9 +4,10 @@
 GitHub Repository: https://github.com/igorgrv/parkimeter-graduate
 Swagger: http://localhost:8080/swagger-ui/index.html
 
-H2:http://localhost/parkimeter
-username: 
-password: 
+MongoDb:
+* Host: http://localhost:27017/parkimeter
+* username: 
+* password: 
 
 ## About :book:
 
