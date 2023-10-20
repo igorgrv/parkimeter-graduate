@@ -73,7 +73,7 @@ public class DriverController {
         return new ResponseEntity<>(existingItemOptional, HttpStatus.OK);
     }
 
-    @Operation(summary = "Create an Driver", description = "Method to crete an new Driver")
+    @Operation(summary = "Create a Driver", description = "Method to crete a new Driver")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS - Driver successfully created", content = @Content(schema = @Schema(implementation = Driver.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })

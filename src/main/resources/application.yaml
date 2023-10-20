@@ -1,6 +1,8 @@
 spring:
   application.name: ParkingMeterMonitor
   banner.location: static/banner.txt
+  main:
+    allow-circular-references: true
   data:
     mongodb:
         uri: mongodb://localhost/parking-meter

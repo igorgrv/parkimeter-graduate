@@ -30,10 +30,11 @@ public class Vehicle {
     @Version
     private Long version;
 
-    public Vehicle(VehicleDto dto) {
+    public Vehicle(VehicleDto dto, Driver driver) {
         this.brandName = dto.brandName();
         this.model = dto.model();
         this.licensePlate = dto.licensePlate();
+        this.driver = driver;
     }
 
 }

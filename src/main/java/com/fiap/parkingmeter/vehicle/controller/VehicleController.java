@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fiap.parkingmeter.driver.controller.dto.DriverVehicleDto;
 import com.fiap.parkingmeter.vehicle.controller.dto.VehicleDto;
 import com.fiap.parkingmeter.vehicle.entity.Vehicle;
 import com.fiap.parkingmeter.vehicle.service.VehicleService;
@@ -63,7 +65,7 @@ public class VehicleController {
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get a Vehicle by ID", description = "Method to get a Vehicle based on the ID")
+    @Operation(summary = "Get a list of Vehicles given the Driver", description = "Method to get a list of Vehicles given the Driver")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Vehicle.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })
@@ -73,13 +75,24 @@ public class VehicleController {
         return new ResponseEntity<>(existingItemOptional, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get a Vehicle by ID", description = "Method to get a Vehicle based on the ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = DriverVehicleDto.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
+    })
+    @GetMapping("/driver/{id}")
+    public ResponseEntity<DriverVehicleDto> getDriverWithVehicles(@PathVariable("id") String driverId) {
+        return new ResponseEntity<>(service.getDriverWithVehicles(driverId), HttpStatus.OK);
+    }
+    
+
     @Operation(summary = "Create an Vehicle", description = "Method to crete an new Vehicle")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS - Vehicle successfully created", content = @Content(schema = @Schema(implementation = Vehicle.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })
     @PostMapping
-    public ResponseEntity<Vehicle> create(@Valid @RequestBody VehicleDto vehicle) {
-        Vehicle savedItem = service.create(vehicle);
+    public ResponseEntity<Vehicle> create(@RequestParam(name = "driverId", required = true) String driverId,
+            @Valid @RequestBody VehicleDto vehicle) {
+        Vehicle savedItem = service.create(driverId, vehicle);
         return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
     }
 

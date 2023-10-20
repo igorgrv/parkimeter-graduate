@@ -23,11 +23,15 @@ public record VehicleDto(
     @Schema(description = "licensePlate to register vehicle's license plate", example = "BRA2E23")
     String licensePlate) {
 
-  public Vehicle getVehicleUpdated(Vehicle oldVehicle) {
-    oldVehicle.setBrandName(brandName);
-    oldVehicle.setModel(model);
-    oldVehicle.setLicensePlate(licensePlate);
-    return oldVehicle;
-  }
+    public static VehicleDto fromEntity(Vehicle oldVehicle) {
+        return new VehicleDto(oldVehicle.getBrandName(), oldVehicle.getModel(), oldVehicle.getLicensePlate());
+    }
+
+    public Vehicle getVehicleUpdated(Vehicle oldVehicle) {
+        oldVehicle.setBrandName(brandName);
+        oldVehicle.setModel(model);
+        oldVehicle.setLicensePlate(licensePlate);
+        return oldVehicle;
+    }
 
 }

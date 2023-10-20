@@ -24,7 +24,8 @@ public record DriverDto(
 
     @NotBlank(message = "email is mandatory")
     @Schema(description = "email to register the user", example = "jose@example.com")
-    Email email,
+    @Email
+    String email,
     
     @NotBlank(message = "password is mandatory")
     @Size(min = 6, max = 15, message = "must have {min} and {max} characters")

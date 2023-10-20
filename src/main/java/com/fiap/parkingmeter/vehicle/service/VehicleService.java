@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.fiap.parkingmeter.driver.controller.dto.DriverVehicleDto;
+import com.fiap.parkingmeter.driver.entity.Driver;
+import com.fiap.parkingmeter.driver.service.DriverService;
 import com.fiap.parkingmeter.exception.NotFoundException;
 import com.fiap.parkingmeter.vehicle.controller.dto.VehicleDto;
 import com.fiap.parkingmeter.vehicle.entity.Vehicle;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class VehicleService {
 
     private final VehicleRepository repository;
+    private final DriverService driverService;
 
     public List<Vehicle> findAll() {
         return repository.findAll();
@@ -27,8 +31,15 @@ public class VehicleService {
                 .orElseThrow(() -> new NotFoundException("Could not find any vehicle given id: " + vehicleId));
     }
 
-    public Vehicle create(VehicleDto vehicle) {
-        return repository.save(new Vehicle(vehicle));
+    public DriverVehicleDto getDriverWithVehicles(String driverId) {
+        Driver driver = driverService.findById(driverId);
+        List<Vehicle> vehicles = repository.findByDriver(driver);
+        return DriverVehicleDto.fromEntities(driver, vehicles);
+    }
+
+    public Vehicle create(String driverId, VehicleDto vehicle) {
+        Driver driver = driverService.findById(driverId);
+        return repository.save(new Vehicle(vehicle, driver));
     }
 
     public Vehicle update(String id, VehicleDto vehicle) {
