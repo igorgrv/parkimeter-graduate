@@ -1,10 +1,10 @@
-package com.fiap.parkimeter;
+package com.fiap.parkingmeter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ParkimeterApplicationTests {
+class ParkingMeterApplicationTests {
 
 	@Test
 	void contextLoads() {

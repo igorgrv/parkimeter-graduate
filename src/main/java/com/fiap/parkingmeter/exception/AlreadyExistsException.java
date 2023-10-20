@@ -1,4 +1,4 @@
-package com.fiap.parkimeter.exception;
+package com.fiap.parkingmeter.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

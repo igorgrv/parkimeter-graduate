@@ -1,17 +1,12 @@
-# Parkimeter :car: :bar_chart:
+# Parking Meter :car: :bar_chart:
 **Tech Challenge - Phase 3 - Graduate/Pós-Graduação**
 
-GitHub Repository: https://github.com/igorgrv/parkimeter-graduate
+GitHub Repository: https://github.com/igorgrv/parkingmeter-graduate
 Swagger: http://localhost:8080/swagger-ui/index.html
-
-MongoDb:
-* Host: http://localhost:27017/parkimeter
-* username: 
-* password: 
 
 ## About :book:
 
-Welcome to Parkimeter Monitor! An innovative project that combines the powerful technologies of:
+Welcome to Parking Meter Monitor! An innovative project that combines the powerful technologies of:
 
 * Java 17;
 * MongoDB;
@@ -20,12 +15,39 @@ Welcome to Parkimeter Monitor! An innovative project that combines the powerful 
 * Spring Validation;
 * Lombok;
 
+## Working with MongoDB
+
+To get started you need to:
+* Install MongoDB Community Server: https://www.mongodb.com/try/download/community
+* After that, execute in a terminal:  **`mongosh`**
+* With the server up and running, execute the following commands:
+
+```bash
+use parking-meter
+```
+
+
+
+### Basic MongoDB Commands
+
+|           **MongoDB Command**            | **Description**                                     |
+| :--------------------------------------: | :-------------------------------------------------- |
+|      **`mongod`** or **`mongosh`**       | Starts mongoDB Server                               |
+|           **`show databases`**           | Show all the databases                              |
+|          **`use databaseName`**          | Select the Database                                 |
+|          **`show collections`**          | Show all the collections for the specific database  |
+|       **`db.collectName.drop()`**        | Drop the specified collection                       |
+| **`db.nomeCollection.countDocuments()`** | Count the documents given a collection              |
+|      **`db.nomeCollection.find()`**      | Shows all the documents of the specified collection |
+
+
 
 ## Entity-relationship
 
-<img src="./Documents/Entities.png" alt="Entities" style="zoom: 50%;" />
+<img src="./Documents/Entities.png" alt="Entities" style="zoom: 100%;" />
 
 ## Challenges
 
 * Finding best practices for a nonSql project
+* Work with NoSQL databases
 * Entity-relationship modeling

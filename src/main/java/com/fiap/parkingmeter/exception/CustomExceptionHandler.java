@@ -1,4 +1,4 @@
-package com.fiap.parkimeter.exception;
+package com.fiap.parkingmeter.exception;
 
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;

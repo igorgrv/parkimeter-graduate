@@ -1,4 +1,4 @@
-package com.fiap.parkimeter.vehicle.entity;
+package com.fiap.parkingmeter.vehicle.entity;
 
 import lombok.Data;
 
