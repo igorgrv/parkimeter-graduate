@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fiap.parkingmeter.driver.controller.dto.DriverDto;
 import com.fiap.parkingmeter.vehicle.entity.Vehicle;
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,10 @@ public class Driver {
 
     @Id
     private String id;
-    private String brandName;
-    private String model;
-    private String licensePlate;
+    private String fullName;
+    private String licenseNumber;
+    private Email email;
+    private String password;
 
     @DBRef
     private List<Vehicle> vehicles;
@@ -33,9 +35,10 @@ public class Driver {
     private Long version;
 
     public Driver(DriverDto dto) {
-        this.brandName = dto.brandName();
-        this.model = dto.model();
-        this.licensePlate = dto.licensePlate();
+        this.fullName = dto.fullName();
+        this.licenseNumber = dto.licenseNumber();
+        this.email = dto.email();
+        this.password = dto.password();
     }
 
 }

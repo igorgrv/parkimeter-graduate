@@ -1,32 +1,40 @@
 package com.fiap.parkingmeter.driver.controller.dto;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fiap.parkingmeter.driver.entity.Driver;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Schema(title = "DriverDto", description = "Object that represents a Driver's data transfer object")
 public record DriverDto(
-    @NotBlank(message = "brandName is mandatory")
+    @NotBlank(message = "fullName is mandatory")
     @Size(min = 2, max = 50, message = "size must be between {min} and {max}")
-    @Schema(description = "brandName to log in to the system", example = "Mercedes-AMG")
-    String brandName,
+    @Schema(description = "fullName to identify the user", example = "José Fulano")
+    String fullName,
 
-    @NotBlank(message = "model is mandatory")
-    @Size(min = 2, max = 15, message = "size must be between {min} and {max}")
-    @Schema(description = "model to log in to the system", example = "CLA 45")
-    String model,
+    @NotBlank(message = "cannot be null or empty")
+    @Size(min = 11, max = 11, message = "must have {min} characters")
+    @CPF
+    @Schema(description = "CPF to log in to the system", example = "00911719032")
+    String licenseNumber,
+
+    @NotBlank(message = "email is mandatory")
+    @Schema(description = "email to register the user", example = "jose@example.com")
+    Email email,
     
-    @NotBlank(message = "licensePlate is mandatory")
-    @Size(min = 7, max = 7, message = "must have {min} characters")
-    @Schema(description = "licensePlate to log in to the system", example = "BRA2E23")
-    String licensePlate) {
+    @NotBlank(message = "password is mandatory")
+    @Size(min = 6, max = 15, message = "must have {min} and {max} characters")
+    @Schema(description = "password to log in to the system", example = "strongPass123!")
+    String password) {
 
   public Driver getDriverUpdated(Driver oldDriver) {
-    oldDriver.setBrandName(brandName);
-    oldDriver.setModel(model);
-    oldDriver.setLicensePlate(licensePlate);
+    oldDriver.setFullName(fullName);
+    oldDriver.setEmail(email);
+    oldDriver.setPassword(password);
     return oldDriver;
   }
 
