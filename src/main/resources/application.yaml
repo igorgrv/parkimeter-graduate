@@ -1,11 +1,9 @@
 spring:
-  application.name: ParkingMeterMonitor
-  banner.location: static/banner.txt
-  main:
-    allow-circular-references: true
-  data:
-    mongodb:
-        uri: mongodb://localhost/parking-meter
-        port: 27017
-        username:
-        password:
+    # profiles.active: local
+    application.name: ParkingMeterMonitor
+    banner.location: static/banner.txt
+    data:
+        mongodb:
+            uri: mongodb://mongo-parking:27017/parking-meter
+            username:
+            password:

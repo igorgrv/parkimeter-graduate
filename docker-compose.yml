@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongo-parking:
+    image: mongo
+    container_name: mongo-parking
+    ports:
+      - "27017:27017"
+  
+  parking-meter-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: parking-meter-container
+    ports:
+      - "8080:8080"
+    environment:
+      - spring.application.name=ParkingMeterMonitor
+      - spring.banner.location=static/banner.txt
+      - spring.data.mongodb.uri=mongodb://mongo-parking:27017/parking-meter
