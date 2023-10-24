@@ -1,3 +1,5 @@
+# mvn clean install
+# docker-compose build
 # docker-compose up
 FROM maven:3-openjdk-18-slim
 USER root
