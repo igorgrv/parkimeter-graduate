@@ -1,6 +1,4 @@
 spring:
-    # profiles.active: local
     application.name: ParkingMeterMonitor
     banner.location: static/banner.txt
-    data.mongodb.uri: ${MONGO_URI}
-
+    data.mongodb.uri: ${MONGO_URI:xxxxx}
