@@ -27,7 +27,6 @@ use parking-meter
 ```
 
 
-
 ### Basic MongoDB Commands
 
 |           **MongoDB Command**            | **Description**                                     |
@@ -51,3 +50,7 @@ use parking-meter
 * Finding best practices for a nonSql project
 * Work with NoSQL databases
 * Entity-relationship modeling
+
+
+1 - Criar repositório para subir imagens docker no ECR
+2 - Subir o arquivo buildspec.yml para buildar o projeto usando o CodeBuild
