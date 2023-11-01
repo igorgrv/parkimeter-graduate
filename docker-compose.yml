@@ -8,10 +8,10 @@ services:
 #     ports:
 #       - "27017:27017"
   
-  parking-meter-container:
+  parking-meter:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: parking-meter-container
+    container_name: parking-meter
     ports:
       - "8080:8080"

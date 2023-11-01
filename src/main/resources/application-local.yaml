@@ -1,4 +1,0 @@
-spring:
-    application.name: ParkingMeterMonitor
-    banner.location: static/banner.txt
-    data.mongodb.uri: ${MONGO_URI:xxxxx}
