@@ -65,7 +65,7 @@ public class VehicleController {
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get a list of Vehicles given the Driver", description = "Method to get a list of Vehicles given the Driver")
+    @Operation(summary = "Get a Vehicles given the Driver", description = "Method to get a Vehicles given the Driver")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Vehicle.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })
