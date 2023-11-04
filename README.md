@@ -64,16 +64,25 @@ use parking-meter
 
 
 
-|      **Service**      | **Resource Name**          | "ARN" |
-|:---------------------:|:---------------------------|-------|
-|    **`CodeBuild`**    | parking-meter-codebuild    |       |
-|       **`ECR`**       | parking-meter              |       |
-|  **`Target Group`**   | parking-meter-tg           |       |
-|  **`Load Balancer`**  | parking-meter-lb           |       |
-| **`Security Group`**  | parking-meter-sg           |       |
-|     **`Cluster`**     | cluster-parking-meter      |       |
-| **`Task Definition`** | parking-meter-task         |       |
-|  **`CodePipeline`**   | parking-meter-codepipeline |       |
+
+|           **Service**           | **Resource Name**          | "ARN / Description"                                                                               |
+|:-------------------------------:|:---------------------------|---------------------------------------------------------------------------------------------------|
+|         **`CodeBuild`**         | parking-meter-codebuild    | parking-meter-codebuild:ae5ee75b-f1c9-46d9-98fb-35a81571015b                                      |
+|            **`ECR`**            | parking-meter              | 850055427903.dkr.ecr.us-east-1.amazonaws.com/parking-meter                                        |
+|       **`Target Group`**        | parking-meter-tg           | arn:aws:elasticloadbalancing:us-east-1:850055427903:targetgroup/parking-meter-tg/e85cab6527f17c55 |
+|       **`Load Balancer`**       | parking-meter-lb           | parking-meter-lb-791359489.us-east-1.elb.amazonaws.com                                            |
+|      **`Security Group`**       | parking-meter-sg           | ID sg-0e03a6b12d11282c3                                                                           |
+|          **`Cluster`**          | cluster-parking-meter      | arn:aws:ecs:us-east-1:850055427903:cluster/cluster-parking-meter                                  |
+| **`Task Definition - Fargate`** | parking-meter-task         | arn:aws:ecs:us-east-1:850055427903:task-definition/parking-meter-task:1                           |
+|       **`CodePipeline`**        | parking-meter-codepipeline | ID pipeline:4106e63e-5621-4f0b-ae41-77b317a70181                                                  |
+|          **`Service`**          | parking-meter-service      | We deleted the service because we set up a task like Fargate which is subject to charges          |
+
+
+### Service Auto Scaling
+
+<img src="./Documents/service-auto-scaling.png" alt="Architecture" style="zoom: 100%;" />
+
+In this configuration we can change the metric for CPU or Memory, and the maximum number of instances/tasks that we can scale. This way, CloudWatch will alert the AWS Auto Scaling service to scale our application when the CPU average is 80%.
 
 
 ## Challenges
