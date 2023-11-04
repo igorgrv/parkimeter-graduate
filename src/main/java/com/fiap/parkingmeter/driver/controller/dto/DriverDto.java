@@ -3,10 +3,12 @@ package com.fiap.parkingmeter.driver.controller.dto;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fiap.parkingmeter.driver.entity.Driver;
+import com.fiap.parkingmeter.payment.PaymentEnum;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Schema(title = "DriverDto", description = "Object that represents a Driver's data transfer object")
@@ -30,13 +32,17 @@ public record DriverDto(
     @NotBlank(message = "password is mandatory")
     @Size(min = 6, max = 15, message = "must have {min} and {max} characters")
     @Schema(description = "password to log in to the system", example = "strongPass123!")
-    String password) {
+    String password,
+    
+    @NotNull(message = "preferredPaymentMethod is mandatory")
+    @Schema(description = "Preferred Payment Method", example = "PIX")
+    PaymentEnum preferredPaymentMethod) {
 
-  public Driver getDriverUpdated(Driver oldDriver) {
-    oldDriver.setFullName(fullName);
-    oldDriver.setEmail(email);
-    oldDriver.setPassword(password);
-    return oldDriver;
-  }
+    public Driver getDriverUpdated(Driver oldDriver) {
+        oldDriver.setFullName(fullName);
+        oldDriver.setEmail(email);
+        oldDriver.setPassword(password);
+        return oldDriver;
+    }
 
 }

@@ -6,10 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fiap.parkingmeter.driver.entity.Driver;
+import com.fiap.parkingmeter.parkingcontrol.controller.dto.ParkingVehicleStartDto;
 import com.fiap.parkingmeter.parkingcontrol.entity.ParkingVehicle;
 import com.fiap.parkingmeter.parkingcontrol.service.ParkingManagementService;
 import com.fiap.parkingmeter.vehicle.entity.Vehicle;
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -46,19 +48,19 @@ public class ParkingManagementController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = ParkingVehicle.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })
-    @PostMapping("/start/{vehicleId}")
-    public ResponseEntity<ParkingVehicle> startParking(@PathVariable("vehicleId") String vehicleId) {
-        ParkingVehicle savedItem = service.startParking(vehicleId);
+    @PostMapping("/start")
+    public ResponseEntity<ParkingVehicle> startParking(@Valid @RequestBody ParkingVehicleStartDto dto) {
+        ParkingVehicle savedItem = service.startParking(dto);
         return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get the cost of a Vehicle", description = "Method to get the estimated cost/cost of a Vehicle")
+    @Operation(summary = "Get the cost of a Vehicle that is parked", description = "Method to get the estimated cost/cost of a Vehicle that is parked")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Vehicle.class), mediaType = MediaType.APPLICATION_JSON_VALUE)),
     })
     @GetMapping("{vehicleId}")
     public ResponseEntity<ParkingVehicle> getByVehicleId(@PathVariable("vehicleId") String vehicleId) {
-        ParkingVehicle vehicleWithCost = service.findByVehicleIdWithCost(vehicleId);
+        ParkingVehicle vehicleWithCost = service.findByVehicleIdWithCostAndActive(vehicleId);
         return new ResponseEntity<>(vehicleWithCost, HttpStatus.OK);
     }
 

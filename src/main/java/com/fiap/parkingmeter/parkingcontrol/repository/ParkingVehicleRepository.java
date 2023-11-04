@@ -1,6 +1,6 @@
 package com.fiap.parkingmeter.parkingcontrol.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -9,6 +9,6 @@ import com.fiap.parkingmeter.vehicle.entity.Vehicle;
 
 public interface ParkingVehicleRepository extends MongoRepository<ParkingVehicle, String> {
 
-  Optional<ParkingVehicle> findByVehicle(Vehicle vehicle);
+  List<ParkingVehicle> findByVehicle(Vehicle vehicle);
 
 }

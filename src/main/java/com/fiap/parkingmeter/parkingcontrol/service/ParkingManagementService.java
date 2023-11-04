@@ -1,14 +1,12 @@
 package com.fiap.parkingmeter.parkingcontrol.service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.fiap.parkingmeter.exception.NotFoundException;
+import com.fiap.parkingmeter.parkingcontrol.controller.dto.ParkingVehicleStartDto;
 import com.fiap.parkingmeter.parkingcontrol.entity.ParkingVehicle;
 import com.fiap.parkingmeter.parkingcontrol.repository.ParkingVehicleRepository;
 import com.fiap.parkingmeter.vehicle.entity.Vehicle;
@@ -23,52 +21,66 @@ public class ParkingManagementService {
     private final VehicleService vehicleService;
     private final ParkingVehicleRepository repository;
 
-    // 0.083 * 60 = 5 reais
-    private static final BigDecimal RATE_PER_MINUTE = BigDecimal.valueOf(0.083);
-
     public List<ParkingVehicle> findAll() {
         return repository.findAll();
     }
 
-    public ParkingVehicle findByVehicleIdWithCost(String vehicleId) {
-        ParkingVehicle parkingVehicle = findByVehicleId(vehicleId);
-        
-        // if the car is no longer parked, then do not estimate the time
-        if (parkingVehicle.getEndOfOperation() != null)
-            return parkingVehicle;
-        
-        setCost(parkingVehicle);
+    public ParkingVehicle findByVehicleIdWithCostAndActive(String vehicleId) {
+        Optional<ParkingVehicle> parkingVehicleOpt = findActiveParkedVehicle(vehicleId);
+        if (!parkingVehicleOpt.isPresent())
+            throw new IllegalStateException("No vehicle with this ID is parked");
 
+        ParkingVehicle parkingVehicle = parkingVehicleOpt.get();
+        ParkingVehicle.setHoursParked(parkingVehicle);
+        // if there is already cost then the parking type is fixed and the price won't change
+        if (parkingVehicle.getCost() != null)
+            return parkingVehicle;
+
+        ParkingVehicle.setCostBasedOnHours(parkingVehicle);
         return parkingVehicle;
     }
 
-    private ParkingVehicle findByVehicleId(String vehicleId) {
+    private List<ParkingVehicle> findByVehicleId(String vehicleId) {
         Vehicle vehicle = vehicleService.findById(vehicleId);
-        return repository
-                .findByVehicle(vehicle)
-                .orElseThrow(
-                        () -> new NotFoundException("Could not find any vehicle parked given id: " + vehicleId));
+        return repository.findByVehicle(vehicle);
     }
 
-    private void setCost(ParkingVehicle parkingVehicle) {
-        Long minutesParked = Duration.between(parkingVehicle.getStartOfOperation(), LocalDateTime.now()).toMinutes();
-        parkingVehicle.setMinutesCarParked(minutesParked);
+    public ParkingVehicle startParking(ParkingVehicleStartDto parkingVehicleDto) {
 
-        // cost based on the RatePerMinute rounded up - if 4,98 then it will become 5 reais
-        BigDecimal cost = RATE_PER_MINUTE.multiply(new BigDecimal(minutesParked)).setScale(2, RoundingMode.CEILING);
-        parkingVehicle.setCost(cost);
-    }
+        // if the vehicle is already parked, or does not exist, then stop the process
+        Optional<ParkingVehicle> parkingVehicleOpt = findActiveParkedVehicle(parkingVehicleDto.vehicleId());
+        if (parkingVehicleOpt.isPresent())
+            throw new IllegalStateException("Vehicle is already parked");
 
-    public ParkingVehicle startParking(String vehicleId) {
-        Vehicle vehicle = vehicleService.findById(vehicleId);
-        return repository.save(new ParkingVehicle(vehicle, LocalDateTime.now()));
+        // if the driver does not have a payment method, stop the process
+        Vehicle vehicle = vehicleService.findById(parkingVehicleDto.vehicleId());
+        if (vehicle.getDriver().getPreferredPaymentMethod() == null)
+            throw new IllegalStateException(
+                    "Driver does not have a payment method associated, please, register a payment method first");
+
+        ParkingVehicle parkingVehicle = new ParkingVehicle(vehicle, LocalDateTime.now(), parkingVehicleDto);
+        return repository.save(parkingVehicle);
     }
 
     public ParkingVehicle endParking(String vehicleId) {
-        ParkingVehicle parkingVehicle = findByVehicleId(vehicleId);
-        setCost(parkingVehicle);
-        parkingVehicle.setEndOfOperation(LocalDateTime.now());
+        Optional<ParkingVehicle> parkingVehicleOpt = findActiveParkedVehicle(vehicleId);
+        if (!parkingVehicleOpt.isPresent())
+            throw new IllegalStateException("Vehicle is no longer parked");
+
+        ParkingVehicle parkingVehicle = parkingVehicleOpt.get();
+        parkingVehicle.setIsActive(false);
+        parkingVehicle.setEndOfOperation();
+        ParkingVehicle.setHoursParked(parkingVehicle);
+
+        if (parkingVehicle.getCost() != null)
+            return repository.save(parkingVehicle);
+
+        ParkingVehicle.setCostBasedOnHours(parkingVehicle);
         return repository.save(parkingVehicle);
+    }
+
+    private Optional<ParkingVehicle> findActiveParkedVehicle(String vehicleId) {
+        return findByVehicleId(vehicleId).stream().filter(ParkingVehicle::getIsActive).findFirst();
     }
 
 }

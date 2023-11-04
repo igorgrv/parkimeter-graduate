@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fiap.parkingmeter.driver.controller.dto.DriverDto;
+import com.fiap.parkingmeter.payment.PaymentEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Driver {
     private String licenseNumber;
     private String email;
     private String password;
+    private PaymentEnum preferredPaymentMethod;
 
     @Version
     private Long version;
@@ -31,6 +33,7 @@ public class Driver {
         this.licenseNumber = dto.licenseNumber();
         this.email = dto.email();
         this.password = dto.password();
+        this.preferredPaymentMethod = dto.preferredPaymentMethod();
     }
 
 }
