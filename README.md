@@ -87,6 +87,6 @@ In this configuration we can change the metric for CPU or Memory, and the maximu
 
 ## Challenges
 
-* Finding best practices for a nonSql project
+* Finding best practices for a noSql project
 * Work with NoSQL databases
-* Entity-relationship modeling
+* Creating a AWS infrastructure from the beginning
