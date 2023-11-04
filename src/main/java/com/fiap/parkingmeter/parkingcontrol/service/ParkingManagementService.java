@@ -52,14 +52,25 @@ public class ParkingManagementService {
         if (parkingVehicleOpt.isPresent())
             throw new IllegalStateException("Vehicle is already parked");
 
-        // if the driver does not have a payment method, stop the process
         Vehicle vehicle = vehicleService.findById(parkingVehicleDto.vehicleId());
-        if (vehicle.getDriver().getPreferredPaymentMethod() == null)
-            throw new IllegalStateException(
-                    "Driver does not have a payment method associated, please, register a payment method first");
+        
+        // if the driver does not have a payment method, stop the process
+        // if the payment type is PIX and the parking type is fix, then stop the process
+        validatePayment(parkingVehicleDto, vehicle);
 
         ParkingVehicle parkingVehicle = new ParkingVehicle(vehicle, LocalDateTime.now(), parkingVehicleDto);
         return repository.save(parkingVehicle);
+    }
+
+    private void validatePayment(ParkingVehicleStartDto parkingVehicleDto, Vehicle vehicle) {
+        if (vehicle.getDriver().getPreferredPaymentMethod() == null)
+            throw new IllegalStateException(
+                    "Driver does not have a payment method associated, please, register a payment method first");
+        
+        String paymentType = vehicle.getDriver().getPreferredPaymentMethod().getPaymentType();
+        String parkingType = parkingVehicleDto.parkingType().getType();
+        if (paymentType.equalsIgnoreCase("PIX") && parkingType.equalsIgnoreCase("FIX"))
+            throw new IllegalStateException("For FIX period, only CREDIT/DEBIT options are allowed");
     }
 
     public ParkingVehicle endParking(String vehicleId) {
