@@ -1,5 +1,7 @@
 package com.fiap.parkingmeter.alert.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -28,12 +30,20 @@ public class AlertService {
             return;
 
         parkedVehicles.forEach(parkedVehicle -> {
+
+            LocalDateTime currentTime = LocalDateTime.now();
+            long timeUntilEndOfOperation = Duration.between(currentTime, parkedVehicle.getEndOfOperation()).toMinutes();
+
+            // if already expired, or if it's more than 10 minutes to expire, stop the process
+            if (timeUntilEndOfOperation > 10 || timeUntilEndOfOperation < 0)
+                return;
+
             Vehicle vehicle = parkedVehicle.getVehicle();
             Driver driver = vehicle.getDriver();
 
             String warningMessage = String.format(
-                    "Hi %s, your parking meter is about to expire, for the vehicle: %s - License Plate: %s. Renew if necessary.",
-                    driver.getFullName(), vehicle.getBrandName(), vehicle.getLicensePlate());
+                    "Hi %s, your parking meter is about to expire (expires at: %s), for the vehicle: %s - License Plate: %s. Renew if necessary.",
+                    driver.getFullName(), parkedVehicle.getEndOfOperation(),vehicle.getBrandName(), vehicle.getLicensePlate());
 
             AlertLog alertLog = new AlertLog(driver, driver.getPhoneNumber(), warningMessage);
             

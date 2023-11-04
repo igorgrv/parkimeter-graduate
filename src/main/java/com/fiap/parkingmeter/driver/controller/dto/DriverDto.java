@@ -49,6 +49,7 @@ public record DriverDto(
         oldDriver.setFullName(fullName);
         oldDriver.setEmail(email);
         oldDriver.setPassword(password);
+        oldDriver.setPreferredPaymentMethod(preferredPaymentMethod);
         return oldDriver;
     }
 

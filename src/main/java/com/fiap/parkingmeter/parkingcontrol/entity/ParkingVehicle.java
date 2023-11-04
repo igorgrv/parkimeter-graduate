@@ -49,6 +49,9 @@ public class ParkingVehicle {
         if (parkingType.getType().equalsIgnoreCase("FIX") && parkingVehicleDto.fixType() != null) {
             this.fixType = parkingVehicleDto.fixType();
             this.cost = parkingVehicleDto.fixType().getPrice();
+
+            Integer minutesToEnd = parkingVehicleDto.fixType().getMinutes();
+            this.endOfOperation = this.startOfOperation.plusMinutes(minutesToEnd);
         } else if (parkingType.getType().equalsIgnoreCase("FIX") && parkingVehicleDto.fixType() == null)
             throw new IllegalArgumentException("If the Parking type is FIX then your must specify a valid Parking Fix Type");
         else
