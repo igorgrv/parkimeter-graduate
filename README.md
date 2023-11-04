@@ -30,7 +30,7 @@ use parking-meter
 ### Basic MongoDB Commands
 
 |           **MongoDB Command**            | **Description**                                     |
-| :--------------------------------------: | :-------------------------------------------------- |
+|:----------------------------------------:|:----------------------------------------------------|
 |      **`mongod`** or **`mongosh`**       | Starts mongoDB Server                               |
 |           **`show databases`**           | Show all the databases                              |
 |          **`use databaseName`**          | Select the Database                                 |
@@ -45,12 +45,39 @@ use parking-meter
 
 <img src="./Documents/Entities.png" alt="Entities" style="zoom: 100%;" />
 
+
+## AWS Architecture
+
+<img src="./Documents/AWSInfra.png" alt="Architecture" style="zoom: 100%;" />
+
+
+### AWS Account and Resources
+
+|                     |                                                    |
+|:-------------------:|:---------------------------------------------------|
+|   **`Login URL`**   | https://850055427903.signin.aws.amazon.com/console |
+|     **`User`**      | fiap-professor                                     |
+|   **`Password`**    | w36H)87#                                           |
+| **`Access Policy`** | ReadOnlyAccess                                     |
+|    **`Region`**     | North Virginia                                     |
+
+
+
+
+|      **Service**      | **Resource Name**          | "ARN" |
+|:---------------------:|:---------------------------|-------|
+|    **`CodeBuild`**    | parking-meter-codebuild    |       |
+|       **`ECR`**       | parking-meter              |       |
+|  **`Target Group`**   | parking-meter-tg           |       |
+|  **`Load Balancer`**  | parking-meter-lb           |       |
+| **`Security Group`**  | parking-meter-sg           |       |
+|     **`Cluster`**     | cluster-parking-meter      |       |
+| **`Task Definition`** | parking-meter-task         |       |
+|  **`CodePipeline`**   | parking-meter-codepipeline |       |
+
+
 ## Challenges
 
 * Finding best practices for a nonSql project
 * Work with NoSQL databases
 * Entity-relationship modeling
-
-
-1 - Criar repositório para subir imagens docker no ECR
-2 - Subir o arquivo buildspec.yml para buildar o projeto usando o CodeBuild
