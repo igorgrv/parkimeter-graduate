@@ -21,6 +21,7 @@ public class Driver {
     private String id;
     private String fullName;
     private String licenseNumber;
+    private String phoneNumber;
     private String email;
     private String password;
     private PaymentEnum preferredPaymentMethod;
@@ -31,6 +32,7 @@ public class Driver {
     public Driver(DriverDto dto) {
         this.fullName = dto.fullName();
         this.licenseNumber = dto.licenseNumber();
+        this.phoneNumber = dto.phoneNumber();
         this.email = dto.email();
         this.password = dto.password();
         this.preferredPaymentMethod = dto.preferredPaymentMethod();

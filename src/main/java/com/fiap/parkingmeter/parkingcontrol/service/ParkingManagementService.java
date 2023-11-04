@@ -94,4 +94,8 @@ public class ParkingManagementService {
         return findByVehicleId(vehicleId).stream().filter(ParkingVehicle::getIsActive).findFirst();
     }
 
+    public List<ParkingVehicle> getVehiclesParkedWithFixType() {
+      return repository.findVehiclesParkedWithFixType();
+    }
+
 }
