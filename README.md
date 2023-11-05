@@ -85,6 +85,11 @@ use parking-meter
 In this configuration we can change the metric for CPU or Memory, and the maximum number of instances/tasks that we can scale. This way, CloudWatch will alert the AWS Auto Scaling service to scale our application when the CPU average is 80%.
 
 
+## Back4App Containers
+To test remotely We perform the deployment on back4app.
+Swagger: https://parkingmeter-e2kw5mlx.b4a.run/swagger-ui/index.html
+
+
 ## Challenges
 
 * Finding best practices for a noSql project
