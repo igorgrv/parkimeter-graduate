@@ -17,7 +17,7 @@ public class AlertScheduler {
      * seconds minutes hours day-of-month month day-of-week
      *   0       *1      *        *         *        ?
      */
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void runDeleteLogDeliveryEmail() {
         service.sendAlertToDrivers();
     }
