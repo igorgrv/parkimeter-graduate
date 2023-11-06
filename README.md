@@ -13,6 +13,7 @@ Welcome to Parking Meter Monitor! An innovative project that combines the powerf
 * Maven; 
 * Spring Boot;
 * Spring Validation;
+* * Spring Scheduler;
 * Lombok;
 
 ## Working with MongoDB
