@@ -3,7 +3,7 @@
 
 * GitHub Repository: https://github.com/igorgrv/parkingmeter-graduate
 * Swagger: http://localhost:8080/swagger-ui/index.html
-* * https://parkingmeter-e2kw5mlx.b4a.run/swagger-ui/index.html
+    * https://parkingmeter-e2kw5mlx.b4a.run/swagger-ui/index.html
 
 ## About :book:
 
@@ -59,7 +59,7 @@ use parking-meter
 |:-------------------:|:---------------------------------------------------|
 |   **`Login URL`**   | https://850055427903.signin.aws.amazon.com/console |
 |     **`User`**      | fiap-professor                                     |
-|   **`Password`**    | w36H)87#                                           |
+|   **`Password`**    | check PDF                                          |
 | **`Access Policy`** | ReadOnlyAccess                                     |
 |    **`Region`**     | North Virginia                                     |
 
